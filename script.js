@@ -461,3 +461,32 @@ soundToggle.addEventListener("click", () => {
         soundOn ? "ON" : "OFF";
 
 });
+
+
+// =========================================================
+// WAR SCROLL SEQUENCE
+// =========================================================
+
+const warSection = document.getElementById("war");
+const warFrames = document.querySelectorAll(".war-frame");
+
+if (warSection && warFrames.length) {
+    window.addEventListener("scroll", () => {
+        const rect = warSection.getBoundingClientRect();
+        const sectionHeight = warSection.offsetHeight - window.innerHeight;
+        const scrolled = -rect.top;
+
+        // progress 0 → 1 while the sticky section is active
+        let progress = Math.min(Math.max(scrolled / sectionHeight, 0), 1);
+
+        // map progress to frame index
+        const frameIndex = Math.min(
+            Math.floor(progress * warFrames.length),
+            warFrames.length - 1
+        );
+
+        warFrames.forEach((frame, i) => {
+            frame.classList.toggle("active", i === frameIndex);
+        });
+    });
+}
