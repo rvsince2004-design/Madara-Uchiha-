@@ -1437,8 +1437,31 @@ body.cursor-hover .cursor {
    ========================================================= */
 
 @media (max-width: 900px) {
+.character-frame {
+    width: 380px;
+    height: 500px;
+}
 
-    .nav {
+
+.character-aura {
+    width: 400px;
+    height: 500px;
+}
+
+
+.sharingan-ring {
+    width: 260px;
+    height: 260px;
+
+    right: -40px;
+}
+
+
+.madara-character {
+    height: 90%;
+}
+   
+ .nav {
         padding: 0 25px;
     }
 
