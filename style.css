@@ -1542,3 +1542,55 @@ body.cursor-hover .cursor {
     }
 
 } 
+
+
+/* ================================
+   DESKTOP HERO FIX
+   ================================ */
+
+@media (min-width: 901px) {
+
+    .hero {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-left {
+        position: relative;
+        z-index: 20;
+        width: 42%;
+    }
+
+    .character-frame {
+        position: absolute;
+
+        width: 58vw;
+        max-width: 950px;
+        height: 620px;
+
+        right: -30px;
+        left: auto;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        z-index: 5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        pointer-events: none;
+    }
+
+    .madara-character {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+        object-position: center;
+
+        display: block;
+    }
+}
