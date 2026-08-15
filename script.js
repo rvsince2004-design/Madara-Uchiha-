@@ -83,23 +83,46 @@ interactiveElements.forEach((element) => {
 // HERO MOUSE PARALLAX
 // =========================================================
 
-const heroCenter = document.querySelector(".hero-center");
+const heroCenter =
+    document.querySelector(".hero-center");
+
+const madaraCharacter =
+    document.querySelector(".madara-character");
+
+const characterFrame =
+    document.querySelector(".character-frame");
+
 
 window.addEventListener("mousemove", (event) => {
 
-    if (!heroCenter) return;
+    if (!heroCenter || !madaraCharacter) return;
 
-    const x =
-        (event.clientX / window.innerWidth - 0.5) * 20;
+    const mouseX =
+        event.clientX / window.innerWidth - 0.5;
 
-    const y =
-        (event.clientY / window.innerHeight - 0.5) * 20;
+    const mouseY =
+        event.clientY / window.innerHeight - 0.5;
 
-    heroCenter.style.transform =
-        `translate(${x}px, ${y}px)`;
+
+    const moveX = mouseX * 35;
+    const moveY = mouseY * 20;
+
+
+    madaraCharacter.style.transform =
+        `translate(${moveX}px, ${moveY}px)`;
+
+
+    if (characterFrame) {
+
+        characterFrame.style.transform =
+            `translate(
+                ${mouseX * 12}px,
+                ${mouseY * 8}px
+            )`;
+
+    }
 
 });
-
 
 // =========================================================
 // ENTER BUTTON
