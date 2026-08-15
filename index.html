@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Madara Uchiha — The Ghost of the Uchiha</title>
+
+    <meta
+        name="description"
+        content="An experimental desktop-first character experience dedicated to Madara Uchiha."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-ring"></div>
+
+        <div class="loader-text">
+            <span>うちはマダラ</span>
+            <strong>MADARA</strong>
+            <small>AWAKENING</small>
+        </div>
+    </div>
+
+
+    <!-- BACKGROUND -->
+    <div class="background">
+        <div class="noise"></div>
+        <div class="red-glow"></div>
+        <div class="moon"></div>
+    </div>
+
+
+    <!-- PARTICLES -->
+    <canvas id="particles"></canvas>
+
+
+    <!-- NAVIGATION -->
+    <header class="nav">
+
+        <div class="logo">
+            <span class="logo-symbol">◉</span>
+            <span>MADARA</span>
+        </div>
+
+        <nav>
+            <a href="#hero">01</a>
+            <a href="#power">02</a>
+            <a href="#forms">03</a>
+            <a href="#legacy">04</a>
+        </nav>
+
+        <button id="soundToggle" aria-label="Toggle sound">
+            SOUND <span>OFF</span>
+        </button>
+
+    </header>
+
+
+    <!-- HERO -->
+    <main>
+
+        <section id="hero" class="hero">
+
+            <div class="hero-left">
+
+                <div class="japanese">
+                    うちはマダラ
+                </div>
+
+                <p class="eyebrow">
+                    THE GHOST OF THE UCHIHA
+                </p>
+
+                <h1>
+                    MADARA
+                    <span>UCHIHA</span>
+                </h1>
+
+                <p class="hero-description">
+                    A legend forged through war, ambition and an
+                    unrelenting will to reshape the world.
+                </p>
+
+                <button class="enter-button" id="enterButton">
+                    <span>ENTER THE LEGEND</span>
+                    <i>↓</i>
+                </button>
+
+            </div>
+
+
+            <div class="hero-center">
+
+                <div class="eye-aura"></div>
+
+                <div class="eye">
+                    <div class="eye-ring ring-one"></div>
+                    <div class="eye-ring ring-two"></div>
+                    <div class="eye-ring ring-three"></div>
+                    <div class="eye-pupil"></div>
+                </div>
+
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+
+            </div>
+
+
+            <div class="hero-right">
+
+                <div class="vertical-text">
+                    戦争を終わらせる者
+                </div>
+
+                <div class="hero-number">
+                    <span>01</span>
+                    <small>/ 04</small>
+                </div>
+
+            </div>
+
+
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div></div>
+            </div>
+
+        </section>
+
+
+        <!-- POWER -->
+        <section id="power" class="power section">
+
+            <div class="section-heading">
+                <span>02 / ABILITIES</span>
+                <h2>POWER<br><em>BEYOND LIMITS</em></h2>
+            </div>
+
+
+            <div class="power-grid">
+
+                <article class="power-card active">
+                    <span class="card-number">01</span>
+                    <div class="card-icon">◉</div>
+                    <h3>SHARINGAN</h3>
+                    <p>
+                        The legendary Uchiha eye capable of
+                        perceiving and copying techniques.
+                    </p>
+                </article>
+
+
+                <article class="power-card">
+                    <span class="card-number">02</span>
+                    <div class="card-icon">◎</div>
+                    <h3>RINNEGAN</h3>
+                    <p>
+                        A supreme ocular power granting access
+                        to devastating abilities.
+                    </p>
+                </article>
+
+
+                <article class="power-card">
+                    <span class="card-number">03</span>
+                    <div class="card-icon">✦</div>
+                    <h3>SUSANOO</h3>
+                    <p>
+                        A colossal chakra avatar representing
+                        overwhelming defensive and offensive power.
+                    </p>
+                </article>
+
+
+                <article class="power-card">
+                    <span class="card-number">04</span>
+                    <div class="card-icon">✧</div>
+                    <h3>LIMBO</h3>
+                    <p>
+                        Invisible shadow-like manifestations
+                        existing beyond ordinary perception.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORMS -->
+        <section id="forms" class="forms section">
+
+            <div class="section-heading">
+                <span>03 / EVOLUTION</span>
+                <h2>THE MANY<br><em>FACES OF MADARA</em></h2>
+            </div>
+
+
+            <div class="form-stage">
+
+                <div class="form-background-number">
+                    01
+                </div>
+
+                <div class="form-content">
+
+                    <span class="form-label">
+                        UCHIHA
+                    </span>
+
+                    <h2 id="formTitle">
+                        ETERNAL
+                        <br>
+                        MANGEKYŌ
+                    </h2>
+
+                    <p id="formDescription">
+                        The culmination of Uchiha ocular power,
+                        carrying the legacy of generations.
+                    </p>
+
+                    <div class="form-controls">
+
+                        <button class="form-button active" data-form="0">
+                            01
+                        </button>
+
+                        <button class="form-button" data-form="1">
+                            02
+                        </button>
+
+                        <button class="form-button" data-form="2">
+                            03
+                        </button>
+
+                        <button class="form-button" data-form="3">
+                            04
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-visual">
+
+                    <div class="visual-ring"></div>
+
+                    <div class="visual-core">
+                        MADARA
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LEGACY -->
+        <section id="legacy" class="legacy section">
+
+            <div class="legacy-content">
+
+                <span>04 / LEGACY</span>
+
+                <h2>
+                    "THE WORLD<br>
+                    <em>SHALL KNOW</em>
+                    <br>
+                    PAIN."
+                </h2>
+
+                <p>
+                    His name became more than that of a warrior.
+                    It became a symbol of power, conflict and an
+                    ambition that challenged the entire shinobi world.
+                </p>
+
+                <div class="final-mark">
+                    <span>うちは</span>
+                    <strong>MADARA</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- CURSOR -->
+    <div class="cursor">
+        <div class="cursor-inner"></div>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+  </html>
