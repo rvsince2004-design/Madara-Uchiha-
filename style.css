@@ -1594,3 +1594,80 @@ body.cursor-hover .cursor {
         display: block;
     }
 }
+
+
+
+
+/* =========================================================
+   WAR SCROLL SEQUENCE
+   ========================================================= */
+
+.war {
+    position: relative;
+    height: 400vh;          /* tall so you can scrub through frames */
+    padding: 0;
+}
+
+.war-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #050505;
+}
+
+.war-images {
+    position: absolute;
+    inset: 0;
+}
+
+.war-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    filter: brightness(0.85) contrast(1.1) saturate(1.2);
+}
+
+.war-frame.active {
+    opacity: 1;
+}
+
+.war-overlay {
+    position: absolute;
+    left: 8vw;
+    bottom: 12vh;
+    z-index: 10;
+    max-width: 480px;
+    pointer-events: none;
+}
+
+.war-overlay span {
+    color: var(--red-bright);
+    font-size: 10px;
+    letter-spacing: 6px;
+}
+
+.war-overlay h2 {
+    margin-top: 18px;
+    font-family: var(--font-display);
+    font-size: clamp(42px, 5.5vw, 90px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+}
+
+.war-overlay h2 em {
+    font-style: normal;
+    color: #555;
+}
+
+.war-overlay p {
+    margin-top: 20px;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.7;
+}
