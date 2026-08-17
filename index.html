@@ -1,346 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Madara Uchiha - Scroll with GIF</title>
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Madara Uchiha — The Ghost of the Uchiha</title>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 300vh;
+            overflow-x: hidden;
+        }
 
-    <meta
-        name="description"
-        content="An experimental desktop-first character experience dedicated to Madara Uchiha."
-    >
+        /* ===== HERO SECTION ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 30% 30%, #1a0505, #000000);
+            border-bottom: 3px solid #ff2200;
+            position: relative;
+            overflow: hidden;
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        .hero h1 {
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #ff2200, #ff8800, #ff2200);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 40px rgba(255, 34, 0, 0.3);
+            letter-spacing: 6px;
+        }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    <link rel="stylesheet" href="style.css">
+        .hero p {
+            margin-top: 1rem;
+            color: #ff6644;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            animation: fadePulse 2s infinite;
+        }
+
+        @keyframes fadePulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .scroll-indicator {
+            margin-top: 3rem;
+            padding: 0.8rem 2.5rem;
+            border: 2px solid #ff2200;
+            border-radius: 50px;
+            color: #ff2200;
+            font-weight: bold;
+            letter-spacing: 3px;
+            animation: bounceArrow 2s infinite;
+            background: rgba(255, 34, 0, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* ===== GIF + ANIMATION SECTION ===== */
+        .gif-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #0d0d0d;
+            position: relative;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        /* Container for the animated character */
+        .character-wrapper {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 800px;
+        }
+
+        /* The main GIF character */
+        .gif-character {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(255, 34, 0, 0.3));
+            transition: all 0.1s linear;
+            will-change: transform;
+            /* Default animation - will be overridden by scroll */
+            animation: floatIdle 3s ease-in-out infinite;
+        }
+
+        /* Idle floating animation */
+        @keyframes floatIdle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* Glow ring behind character */
+        .glow-ring {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 34, 0, 0.15), transparent 70%);
+            animation: ringPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* ===== SCROLL PROGRESS BAR ===== */
+        .progress-container {
+            width: 80%;
+            max-width: 600px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+            margin-top: 2rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff2200, #ff8800);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        /* ===== INFO PANEL ===== */
+        .info-panel {
+            background: rgba(20, 5, 5, 0.8);
+            border: 1px solid #ff2200;
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.3s ease;
+        }
+
+        .info-panel h3 {
+            color: #ff6644;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .info-panel .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .stats span {
+            color: #ff4400;
+            font-weight: bold;
+        }
+
+        /* ===== SCROLL SPEED INDICATOR ===== */
+        .speed-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff2200;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: #ff6644;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .character-wrapper {
+                width: 200px;
+                height: 280px;
+            }
+            .info-panel {
+                padding: 1rem;
+            }
+            .speed-indicator {
+                top: 10px;
+                right: 10px;
+                font-size: 0.6rem;
+                padding: 4px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .character-wrapper {
+                width: 150px;
+                height: 210px;
+            }
+            .scroll-indicator {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-    <!-- LOADER -->
-    <div id="loader">
-        <div class="loader-ring"></div>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <h1>MADARA UCHIHA</h1>
+        <p>⚡ Scroll to awaken the power ⚡</p>
+        <div class="scroll-indicator">⬇ SCROLL DOWN ⬇</div>
+    </section>
 
-        <div class="loader-text">
-            <span>うちはマダラ</span>
-            <strong>MADARA</strong>
-            <small>AWAKENING</small>
-        </div>
-    </div>
-
-
-    <!-- BACKGROUND -->
-    <div class="background">
-        <div class="noise"></div>
-        <div class="red-glow"></div>
-        <div class="moon"></div>
-    </div>
-
-
-    <!-- PARTICLES -->
-    <canvas id="particles"></canvas>
-
-
-    <!-- NAVIGATION -->
-    <header class="nav">
-
-        <div class="logo">
-            <span class="logo-symbol">◉</span>
-            <span>MADARA</span>
-        </div>
-
-        <nav>
-    <a href="#hero">01</a>
-    <a href="#power">02</a>
-    <a href="#war">03</a>
-    <a href="#forms">04</a>
-    <a href="#legacy">05</a>
-</nav>
-
-        <button id="soundToggle" aria-label="Toggle sound">
-            SOUND <span>OFF</span>
-        </button>
-
-    </header>
-
-
-    <!-- HERO -->
-    <main>
-
-        <section id="hero" class="hero">
-
-            <div class="hero-left">
-
-                <div class="japanese">
-                    うちはマダラ
-                </div>
-
-                <p class="eyebrow">
-                    THE GHOST OF THE UCHIHA
-                </p>
-
-                <h1>
-                    MADARA
-                    <span>UCHIHA</span>
-                </h1>
-
-                <p class="hero-description">
-                    A legend forged through war, ambition and an
-                    unrelenting will to reshape the world.
-                </p>
-
-                <button class="enter-button" id="enterButton">
-                    <span>ENTER THE LEGEND</span>
-                    <i>↓</i>
-                </button>
-
+    <!-- ===== GIF CHARACTER SECTION ===== -->
+    <section class="gif-section" id="gifSection">
+        <div class="character-wrapper">
+            <!-- Glow ring behind character -->
+            <div class="glow-ring"></div>
+            
+            <!-- 
+                ============================================================
+                IMPORTANT: Replace the src URL below with YOUR OWN GIF URL.
+                You can use any GIF from sites like GIPHY, Tenor, or your own.
+                ============================================================
+            -->
+            <img 
+                src="https://media.tenor.com/x8v1Nv9nP1MAAAAC/madara-uchiha-naruto.gif" 
+                alt="Madara Uchiha GIF" 
+                class="gif-character" 
+                id="gifCharacter"
+                loading="lazy"
+            />
+            
+            <!-- Fallback text if GIF doesn't load -->
+            <div style="position:absolute; color:#666; font-size:0.8rem; bottom:-30px; opacity:0.5;">
+                (Replace with your own GIF URL)
             </div>
-
-
-            <div class="hero-center">
-
-    <div class="character-aura"></div>
-
-    <div class="orbit orbit-one"></div>
-    <div class="orbit orbit-two"></div>
-
-    <div class="character-frame">
-
-        <div class="character-glow"></div>
-
-        <img
-            src="assets/madara.png"
-            alt="Madara Uchiha"
-            class="madara-character"
-        >
-
-        <div class="character-shadow"></div>
-
-    </div>
-
-    <div class="sharingan-ring">
-        <div class="sharingan-pupil"></div>
-    </div>
-
-</div>
-
-
-            <div class="hero-right">
-
-                <div class="vertical-text">
-                    戦争を終わらせる者
-                </div>
-
-                <div class="hero-number">
-                    <span>01</span>
-                    <small>/ 04</small>
-                </div>
-
-            </div>
-
-
-            <div class="scroll-indicator">
-                <span>SCROLL</span>
-                <div></div>
-            </div>
-
-        </section>
-
-
-        <!-- POWER -->
-        <section id="power" class="power section">
-
-            <div class="section-heading">
-                <span>02 / ABILITIES</span>
-                <h2>POWER<br><em>BEYOND LIMITS</em></h2>
-            </div>
-
-
-            <div class="power-grid">
-
-                <article class="power-card active">
-                    <span class="card-number">01</span>
-                    <div class="card-icon">◉</div>
-                    <h3>SHARINGAN</h3>
-                    <p>
-                        The legendary Uchiha eye capable of
-                        perceiving and copying techniques.
-                    </p>
-                </article>
-
-
-                <article class="power-card">
-                    <span class="card-number">02</span>
-                    <div class="card-icon">◎</div>
-                    <h3>RINNEGAN</h3>
-                    <p>
-                        A supreme ocular power granting access
-                        to devastating abilities.
-                    </p>
-                </article>
-
-
-                <article class="power-card">
-                    <span class="card-number">03</span>
-                    <div class="card-icon">✦</div>
-                    <h3>SUSANOO</h3>
-                    <p>
-                        A colossal chakra avatar representing
-                        overwhelming defensive and offensive power.
-                    </p>
-                </article>
-
-
-                <article class="power-card">
-                    <span class="card-number">04</span>
-                    <div class="card-icon">✧</div>
-                    <h3>LIMBO</h3>
-                    <p>
-                        Invisible shadow-like manifestations
-                        existing beyond ordinary perception.
-                    </p>
-                </article>
-
-            </div>
-
-        </section>
-
-
-<!-- WAR SEQUENCE (scroll animation) -->
-<section id="war" class="war section">
-    <div class="war-sticky">
-        <div class="war-images">
-            <img src="assets/madara-war-01.jpg" alt="Madara rising" class="war-frame active" data-index="0">
-            <img src="assets/madara-war-02.jpg" alt="Susanoo activation" class="war-frame" data-index="1">
-            <img src="assets/madara-war-03.jpg" alt="Charging into battle" class="war-frame" data-index="2">
-            <img src="assets/madara-war-04.jpg" alt="Climactic strike" class="war-frame" data-index="3">
         </div>
 
-        <div class="war-overlay">
-            <span>WAR</span>
-            <h2>THE BATTLE<br><em>OF LEGENDS</em></h2>
-            <p>Scroll to witness the rise of the Ghost of the Uchiha.</p>
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
-    </div>
-</section>
 
-
-        <!-- FORMS -->
-        <section id="forms" class="forms section">
-
-            <div class="section-heading">
-                <span>03 / EVOLUTION</span>
-                <h2>THE MANY<br><em>FACES OF MADARA</em></h2>
+        <!-- Info Panel -->
+        <div class="info-panel" id="infoPanel">
+            <h3>🌀 SCROLL POWER</h3>
+            <div class="stats">
+                <div>Rotation: <span id="rotationValue">0°</span></div>
+                <div>Scale: <span id="scaleValue">1.00x</span></div>
+                <div>Glow: <span id="glowValue">0%</span></div>
             </div>
+        </div>
+    </section>
 
-
-            <div class="form-stage">
-
-                <div class="form-background-number">
-                    01
-                </div>
-
-                <div class="form-content">
-
-                    <span class="form-label">
-                        UCHIHA
-                    </span>
-
-                    <h2 id="formTitle">
-                        ETERNAL
-                        <br>
-                        MANGEKYŌ
-                    </h2>
-
-                    <p id="formDescription">
-                        The culmination of Uchiha ocular power,
-                        carrying the legacy of generations.
-                    </p>
-
-                    <div class="form-controls">
-
-                        <button class="form-button active" data-form="0">
-                            01
-                        </button>
-
-                        <button class="form-button" data-form="1">
-                            02
-                        </button>
-
-                        <button class="form-button" data-form="2">
-                            03
-                        </button>
-
-                        <button class="form-button" data-form="3">
-                            04
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-visual">
-
-                    <div class="visual-ring"></div>
-
-                    <div class="visual-core">
-                        MADARA
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- LEGACY -->
-        <section id="legacy" class="legacy section">
-
-            <div class="legacy-content">
-
-                <span>04 / LEGACY</span>
-
-                <h2>
-                    "THE WORLD<br>
-                    <em>SHALL KNOW</em>
-                    <br>
-                    PAIN."
-                </h2>
-
-                <p>
-                    His name became more than that of a warrior.
-                    It became a symbol of power, conflict and an
-                    ambition that challenged the entire shinobi world.
-                </p>
-
-                <div class="final-mark">
-                    <span>うちは</span>
-                    <strong>MADARA</strong>
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- CURSOR -->
-    <div class="cursor">
-        <div class="cursor-inner"></div>
+    <!-- ===== SPEED INDICATOR ===== -->
+    <div class="speed-indicator" id="speedIndicator">
+        ⚡ Scroll Speed: <span id="speedValue">0</span>
     </div>
 
+    <script>
+        // ============================================================
+        // SCROLL-DRIVEN ANIMATION WITH GIF
+        // ============================================================
 
-    <script src="script.js"></script>
+        // DOM Elements
+        const gif = document.getElementById('gifCharacter');
+        const progressBar = document.getElementById('progressBar');
+        const rotationSpan = document.getElementById('rotationValue');
+        const scaleSpan = document.getElementById('scaleValue');
+        const glowSpan = document.getElementById('glowValue');
+        const speedSpan = document.getElementById('speedValue');
+        const infoPanel = document.getElementById('infoPanel');
+
+        // State
+        let scrollPercent = 0;
+        let lastScrollY = 0;
+        let scrollSpeed = 0;
+
+        // ============================================================
+        // CORE UPDATE FUNCTION
+        // ============================================================
+        function updateCharacter() {
+            // Calculate scroll progress (0 to 1)
+            const scrollY = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            scrollPercent = maxScroll > 0 ? scrollY / maxScroll : 0;
+
+            // Clamp between 0 and 1
+            const p = Math.min(Math.max(scrollPercent, 0), 1);
+
+            // --- 1. ROTATION: Spin character based on scroll ---
+            // Full 360° rotation as you scroll from top to bottom
+            const rotation = p * 720; // 0° to 720° (two full spins)
+            const rotationY = p * 360; // 0° to 360° on Y axis
+
+            // --- 2. SCALE: Grow as you scroll ---
+            const scale = 0.7 + (p * 0.8); // 0.7x to 1.5x
+
+            // --- 3. GLOW INTENSITY ---
+            const glowIntensity = 10 + (p * 40); // 10px to 50px
+
+            // --- 4. POSITION: Slight bobbing effect ---
+            const bobY = Math.sin(p * Math.PI * 6) * 20; // Oscillate up/down
+
+            // --- 5. SPEED EFFECT: Faster spin at higher scroll ---
+            const speedMultiplier = 1 + (p * 2);
+
+            // Apply ALL transformations to the GIF
+            gif.style.transform = `
+                rotate(${rotation * speedMultiplier}deg)
+                rotateY(${rotationY}deg)
+                scale(${scale})
+                translateY(${bobY}px)
+            `;
+
+            // Remove the idle float animation when scrolling
+            gif.style.animation = 'none';
+
+            // --- 6. GLOW RING EFFECT ---
+            const ring = document.querySelector('.glow-ring');
+            ring.style.background = `
+                radial-gradient(circle, 
+                    rgba(255, ${34 + (p * 40)}, 0, ${0.15 + (p * 0.35)}), 
+                    transparent 70%
+                )
+            `;
+            ring.style.transform = `scale(${1 + (p * 0.4)})`;
+
+            // --- 7. PROGRESS BAR ---
+            progressBar.style.width = `${p * 100}%`;
+
+            // --- 8. INFO PANEL UPDATE ---
+            rotationSpan.textContent = `${Math.round(rotation * speedMultiplier)}°`;
+            scaleSpan.textContent = `${scale.toFixed(2)}x`;
+            glowSpan.textContent = `${Math.round((p) * 100)}%`;
+
+            // --- 9. INFO PANEL BORDER GLOW ---
+            const glowColor = `rgb(${255 * p}, ${80 * (1 - p)}, 0)`;
+            infoPanel.style.borderColor = glowColor;
+            infoPanel.style.boxShadow = `0 0 ${20 + (p * 40)}px rgba(255, 34, 0, ${0.1 + (p * 0.3)})`;
+
+            // --- 10. SCROLL SPEED ---
+            const currentScrollY = window.scrollY;
+            scrollSpeed = Math.abs(currentScrollY - lastScrollY);
+            lastScrollY = currentScrollY;
+            speedSpan.textContent = Math.round(scrollSpeed);
+        }
+
+        // ============================================================
+        // THROTTLED SCROLL LISTENER
+        // ============================================================
+        let isAnimating = false;
+
+        window.addEventListener('scroll', () => {
+            if (!isAnimating) {
+                window.requestAnimationFrame(() => {
+                    updateCharacter();
+                    isAnimating = false;
+                });
+                isAnimating = true;
+            }
+        });
+
+        // ============================================================
+        // RESIZE HANDLER
+        // ============================================================
+        window.addEventListener('resize', updateCharacter);
+
+        // ============================================================
+        // INITIAL UPDATE
+        // ============================================================
+        updateCharacter();
+
+        // ============================================================
+        // CONSOLE INFO
+        // ============================================================
+        console.log('🔥 Madara Uchiha GIF Scroll Animation Loaded!');
+        console.log('💡 Tip: Replace the GIF URL in the <img> tag with your own.');
+
+        // ============================================================
+        // OPTIONAL: DRAG TO SCROLL DEMO (for touch devices)
+        // ============================================================
+        // (No additional code needed - standard scroll works on all devices)
+    </script>
 
 </body>
-  </html>
+</html>
